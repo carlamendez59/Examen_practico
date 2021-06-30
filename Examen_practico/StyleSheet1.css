@@ -1,0 +1,13 @@
+﻿body {
+   background-image :url(strawberries-1339969_960_720.jpg);
+    background-size:cover;
+    color:white;
+    font-family:Candara;
+}
+th{
+    font-size:25px;
+}
+td{
+    font-size:15px;
+}
+

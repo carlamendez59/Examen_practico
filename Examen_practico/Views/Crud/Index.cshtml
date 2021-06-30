@@ -1,0 +1,68 @@
+﻿@*@model IEnumerable<Examen_practico.Inventario>*@
+@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<Examen_practico.Inventario>
+<link href="~/StyleSheet1.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Index";
+}
+
+    <h2>Inventario</h2>
+
+<p>
+    @Html.ActionLink("Agregar", "Insertar")
+</p>
+
+@using (Html.BeginForm("Index", "Crud", FormMethod.Get)) 
+{
+    <select name="PageSize" id="PageSize" class="form-control">
+        <option @if ((int)ViewBag.pages == 5) { @Html.Raw("selected") } value="5">5</option>
+        <option @if ((int)ViewBag.pages == 10) { @Html.Raw("selected") } value="10">10</option>
+        <option @if ((int)ViewBag.pages == 15) { @Html.Raw("selected") } value="15">15</option>
+    </select>
+    <br />
+
+    <input type="submit" value="Aplicar" class="btn btn-info" />
+    <br />
+}
+<br />
+<table class="table table-responsive">
+    <tr>
+        <th><span>Producto</span></th>
+        <th><span>Descripción</span></th>
+        <th><span>Código</span></th>
+        <th><span>Cantidad</span></th>
+        <th><span>Precio</span></th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Producto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Codigo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cantidad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Precio)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Editar", new { id=item.Id }) |
+            @Html.ActionLink("Detalles", "Detalles", new { id=item.Id }) |
+            @Html.ActionLink("Eliminar", "Eliminar", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+Pagina @(Model.PageCount < Model.PageNumber ?0: Model.PageNumber) of @Model.PageCount
+<br />
+Total de Registros @Model.TotalItemCount
+@Html.PagedListPager(Model,page => Url.Action("Index","Crud",new {page,pagesize=ViewBag.pages}))
